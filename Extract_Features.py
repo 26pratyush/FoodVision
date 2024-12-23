@@ -32,14 +32,11 @@ def extract_features_from_directory(dataset_dir, output_file='dataset/extracted_
     all_features = []
     image_paths = []
 
-    # Walk through the dataset directory and get all image files
     for root, _, files in os.walk(dataset_dir):
         for file in files:
-            # Check if the file is an image (you can add other formats like .jpeg if needed)
             if file.lower().endswith(('.png', '.jpg', '.jpeg')):
                 img_path = os.path.join(root, file)
                 print(f"Processing image: {img_path}")
-                # Extract features for the image
                 features = extract_features(img_path)
                 all_features.append(features)
                 image_paths.append(img_path)
@@ -47,7 +44,6 @@ def extract_features_from_directory(dataset_dir, output_file='dataset/extracted_
     # Convert list of features to numpy array
     all_features = np.array(all_features)
 
-    # Save the features and image paths to numpy files
     np.save(output_file, all_features)
     np.save(output_paths_file, image_paths)
     print(f"Features saved to '{output_file}'")
@@ -55,17 +51,12 @@ def extract_features_from_directory(dataset_dir, output_file='dataset/extracted_
 
     return all_features, image_paths
 
-# Main section to execute the feature extraction for all images in the dataset directory
 if __name__ == "__main__":
-    # Path to the dataset directory containing images
     dataset_dir = input("Enter the path to your dataset directory: ")
 
-    # Check if the directory exists
     if not os.path.exists(dataset_dir):
         print("The directory does not exist!")
     else:
-        # Extract features from all images in the dataset directory
         features, image_paths = extract_features_from_directory(dataset_dir)
 
-        # Print the extracted features shape
         print(f"Extracted features shape: {features.shape}")
